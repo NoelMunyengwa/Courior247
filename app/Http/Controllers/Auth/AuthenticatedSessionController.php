@@ -29,9 +29,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
         $parcels=Parcel::where('user_id',auth()->id())->get();
-        dd($parcels);
+        
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false))->with('parcels',$parcels);
     }
 
     /**

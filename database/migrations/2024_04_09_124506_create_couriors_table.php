@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('couriors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            
             $table->string('phone');
-            $table->bool('is_available')->default(true);
+            $table->boolean('is_available')->default(true);
             $table->string('location');
             $table->timestamps();
         });
