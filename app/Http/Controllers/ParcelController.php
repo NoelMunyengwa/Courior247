@@ -112,30 +112,41 @@ $longitude = $locationArray[1];
       
         $parcel = Parcel::find($id);
         $drivers = Courior::where('is_available', true)->paginate(5);
+        $selectedDriver=null;
     
       
         
 
 
 
-        return view('pickDriver',compact('drivers','parcel'));
+        return view('pickDriver',compact('drivers','parcel','selectedDriver'));
 
      }
 
      public function saveDriver(Request $request,string $id, string $driver){
+        
+        
 
-        // dd($driver);
-        // How to pick a driver
+  
             $parcel = Parcel::find($id);
-            
+            if($parcel->status =="pending"){
             $parcel->driver_id = $driver;
+            $parcel->status = "awaiting driver confirmation";
             $parcel->save();
+
+           
+            }
+            $selectedDriver = Courior::find($driver);
+            
+            
+            
             
 
         //
-        $drivers = Courior::where('is_available',true)->paginate(5);
+        $drivers = Courior::where('id',$driver)->paginate(5);
+        
 
-        return view('pickDriver',compact('drivers','parcel'));
+        return view('pickDriver',compact('drivers','parcel','selectedDriver'));
 
 
      }

@@ -49,6 +49,10 @@
         <li>Recipient Name: {{$parcel->receiverName}}</li>
         <li>Delivery Address: {{$parcel->address}}</li>
         <li>Weight: {{$parcel->weight}}</li>
+        @if($selectedDriver!=null)
+        <li>Driver Name: {{$selectedDriver->name}}</li>
+        <li>Driver Car: {{$selectedDriver->email}}</li>
+        @endif
         <li>Status: {{$parcel->status}}</li>
         <li>Created At: {{$parcel->created_at}}</li>
         
