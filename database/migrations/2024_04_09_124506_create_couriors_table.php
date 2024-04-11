@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('couriors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('vehicle');
-            $table->string('plates')->unique('couriors');
+            $table->string('email');
+            $table->string('vehicle')->nullable();
+            $table->string('plates')->unique('couriors')->nullable();
             $table->string('picked_customer')->nullable();
             $table->boolean('is_available')->default(true);
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }

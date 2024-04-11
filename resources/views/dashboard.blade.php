@@ -77,7 +77,7 @@
 
 
                 
-@foreach($parcels as $parcel)
+@forelse($parcels as $parcel)
 <div class=" px-8 py-4 my-5 mx-10 bg-green-300 rounded shadow-lg">
 
     
@@ -93,7 +93,7 @@
     <ul>
         
         <li>Parcel Name: {{$parcel->name}}</li>
-        <li>Recipient Name: {{$parcel->receipientName}}</li>
+        <li>Recipient Name: {{$parcel->receiverName}}</li>
         <li>Delivery Address: {{$parcel->address}}</li>
         <li>Weight: {{$parcel->weight}}</li>
         <li>Status: {{$parcel->status}}</li>
@@ -103,8 +103,10 @@
     
 
 </div>
+@empty
+<p class="mx-10 my-5 text-red-900">No parcels available</p>
 
-@endforeach
+@endforelse
 {{ $parcels->links() }}
 
 

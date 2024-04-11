@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Parcel;
 use GuzzleHttp\Client;
 use App\Models\Courior;
+use App\Models\User;
 
 
 
@@ -108,38 +109,33 @@ $longitude = $locationArray[1];
 
      public function pickDriver(Request $request,string $id){
 
-        // How to pick a driver
+      
         $parcel = Parcel::find($id);
-        // $pickedParcel = $parcel['driver_id']=2;
-        // $pickedParcel->save();
-
-        //
-
-
+        $drivers = Courior::where('is_available', true)->paginate(5);
+    
+      
+        
 
 
-        //Pick all drivers who are available
-        $drivers = Courior::where('is_available',true)->paginate(5);
 
-        return view('pickDriver',compact('drivers'));
+        return view('pickDriver',compact('drivers','parcel'));
 
      }
 
      public function saveDriver(Request $request,string $id, string $driver){
 
-        // dd($id);
+        // dd($driver);
         // How to pick a driver
             $parcel = Parcel::find($id);
             
-            $parcel->driver_id = $driver;$parcel->save();
+            $parcel->driver_id = $driver;
+            $parcel->save();
             
-         
-        
 
         //
         $drivers = Courior::where('is_available',true)->paginate(5);
 
-        return view('pickDriver',compact('drivers'));
+        return view('pickDriver',compact('drivers','parcel'));
 
 
      }
