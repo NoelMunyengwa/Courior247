@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('parcels', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
+            $table->integer('driver_id')->nullable();
             $table->string('name');
             $table->string('weight');
             $table->string('description');

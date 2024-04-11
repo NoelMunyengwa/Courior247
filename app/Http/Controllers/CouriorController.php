@@ -62,4 +62,20 @@ class CouriorController extends Controller
     {
         //
     }
+
+    /**
+     * Pick a parcel
+     */
+
+     public function acceptParcel() {
+        
+     }
+
+     /**
+     * Pick a parcel
+     */
+
+     public function rejectParcel() {
+        
+     }
 }

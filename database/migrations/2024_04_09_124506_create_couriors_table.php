@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('couriors', function (Blueprint $table) {
             $table->id();
-            
-            $table->string('phone');
+            $table->string('name');
+            $table->string('vehicle');
+            $table->string('plates')->unique('couriors');
+            $table->string('picked_customer')->nullable();
             $table->boolean('is_available')->default(true);
             $table->string('location');
             $table->timestamps();

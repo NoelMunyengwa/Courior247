@@ -25,5 +25,8 @@ Route::get('/create/parcel', function () {
     return view('parcel');
 });
 
+Route::post('/parcel/{id}/pick/driver',[ParcelController::class,'pickDriver'])->name('pickDriver');
+Route::post('/parcel/{id}/pick/driver/{driver}',[ParcelController::class,'saveDriver'])->name('saveDriver');
+
 Route::resource('parcels', ParcelController::class);
 require __DIR__.'/auth.php';

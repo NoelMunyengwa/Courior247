@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Parcel;
 use GuzzleHttp\Client;
+use App\Models\Courior;
 
 
 
@@ -100,4 +101,46 @@ $longitude = $locationArray[1];
     {
         //
     }
+
+    /**
+     *  auth user picks a driver
+     */
+
+     public function pickDriver(Request $request,string $id){
+
+        // How to pick a driver
+        $parcel = Parcel::find($id);
+        // $pickedParcel = $parcel['driver_id']=2;
+        // $pickedParcel->save();
+
+        //
+
+
+
+
+        //Pick all drivers who are available
+        $drivers = Courior::where('is_available',true)->paginate(5);
+
+        return view('pickDriver',compact('drivers'));
+
+     }
+
+     public function saveDriver(Request $request,string $id, string $driver){
+
+        // dd($id);
+        // How to pick a driver
+            $parcel = Parcel::find($id);
+            
+            $parcel->driver_id = $driver;$parcel->save();
+            
+         
+        
+
+        //
+        $drivers = Courior::where('is_available',true)->paginate(5);
+
+        return view('pickDriver',compact('drivers'));
+
+
+     }
 }
