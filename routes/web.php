@@ -3,13 +3,16 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParcelController;
+use App\Models\Parcel;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $parcels=Parcel::where('user_id',auth()->id())->orderBy('created_at', 'desc')->paginate(2);
+        
+    return view('dashboard',compact('parcels'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

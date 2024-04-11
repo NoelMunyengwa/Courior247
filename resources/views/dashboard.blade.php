@@ -69,6 +69,43 @@
                 </div>
             </form>
         </div>
+
+        <div  class="w-1/2 px-8 py-4  mx-10 bg-gray-300 rounded shadow-lg">
+            <h1 class="text-xl text-center font-medium text-gray-700">My Parcels</h1>
+
+           
+
+
+                
+@foreach($parcels as $parcel)
+<div class=" px-8 py-4 my-5 mx-10 bg-green-300 rounded shadow-lg">
+
+    
+    <div class=" flex justify-between "><h2 class="text-xl font-medium text-gray-700">Parcel Details</h2> 
+    <form action="{{ route('parcels.index') }}" method="post">
+  @csrf  <input type="hidden" name="target" value="some-value"> <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick a Driver</button>
+</form>
+
+</div>
+  
+    <ul>
+        <li>Parcel Name: {{$parcel->name}}</li>
+        <li>Recipient Name: {{$parcel->receipientName}}</li>
+        <li>Delivery Address: {{$parcel->address}}</li>
+        <li>Weight: {{$parcel->weight}}</li>
+        <li>Status: {{$parcel->status}}</li>
+        <li>Created At: {{$parcel->created_at}}</li>
+        
+        </ul>
+    
+
+</div>
+
+@endforeach
+{{ $parcels->links() }}
+
+
+        </div>
       
     </div>
 

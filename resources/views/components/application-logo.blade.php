@@ -12,7 +12,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="156.72211"
-   height="233.4875"
+   height="100.4875"
    viewBox="0 0 156.72211 233.4875"
    id="svg2"
    version="1.1"
