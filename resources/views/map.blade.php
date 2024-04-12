@@ -10,7 +10,7 @@
  * that contains the map. 
  */
 #map {
-  height: 100%;
+  height: 50%;
 }
 
 /* 
@@ -100,6 +100,8 @@ body {
     </div>
 
     <div id="map"></div>
+
+
       <script>
       // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
@@ -111,18 +113,28 @@ function initMap() {
     center: { lat: -33.8688, lng: 151.2195 },
     zoom: 13,
   });
+  const geocoder = new google.maps.Geocoder();
+  const service = new google.maps.DistanceMatrixService();
 
-  new AutocompleteDirectionsHandler(map);
+  new AutocompleteDirectionsHandler(map,geocoder,service);
+  
 }
 
+
+
 class AutocompleteDirectionsHandler {
+    geocoder;
+    service;
+
   map;
   originPlaceId;
   destinationPlaceId;
   travelMode;
   directionsService;
   directionsRenderer;
-  constructor(map) {
+  constructor(map,geocoder,service) {
+    this.geocoder=geocoder;
+    this.service=service;
     this.map = map;
     this.originPlaceId = "";
     this.destinationPlaceId = "";
@@ -144,6 +156,8 @@ class AutocompleteDirectionsHandler {
       destinationInput,
       { fields: ["place_id"] },
     );
+
+    this.myDistance();
 
     this.setupClickListener(
       "changemode-walking",
@@ -174,6 +188,42 @@ class AutocompleteDirectionsHandler {
       this.travelMode = mode;
       this.route();
     });
+  }
+
+  myDistance(){
+    const origin1 = { lat: 55.93, lng: -3.118 };
+  const origin2 = "Greenwich, England";
+  const destinationA = "Stockholm, Sweden";
+  const destinationB = { lat: 50.087, lng: 14.421 };
+  const request = {
+    origins: [origin1, origin2],
+    destinations: [destinationA, destinationB],
+    travelMode: google.maps.TravelMode.DRIVING,
+    unitSystem: google.maps.UnitSystem.METRIC,
+    avoidHighways: false,
+    avoidTolls: false,
+  };
+
+  // put request on page
+//   document.getElementById("request").innerText = JSON.stringify(
+//     request,
+//     null,
+//     2,
+//   );
+
+  // get distance matrix response
+  this.service.getDistanceMatrix(request).then((response) => {
+    // put response
+   const res = JSON.stringify(
+      response,
+      null,
+      2,
+    );
+
+    // show on map
+    document.getElementById("response").innerText= response.originAddresses;
+    const destinationList = response.destinationAddresses;
+  });
   }
   setupPlaceChangedListener(autocomplete, mode) {
     autocomplete.bindTo("bounds", this.map);
@@ -225,5 +275,9 @@ window.initMap = initMap;
       src="https://maps.googleapis.com/maps/api/js?key={{env('MAP_API_KEY')}}&callback=initMap&libraries=places&v=weekly"
       defer
     ></script>
+
+    <div class=" text-center my-10">
+        <h1 id="response">Distance </h1>
+    </div>
   </body>
 </html>
