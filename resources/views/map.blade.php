@@ -115,8 +115,9 @@ function initMap() {
   });
   const geocoder = new google.maps.Geocoder();
   const service = new google.maps.DistanceMatrixService();
+  const locationService = new google.maps.places.PlacesService(map);
 
-  new AutocompleteDirectionsHandler(map,geocoder,service);
+  new AutocompleteDirectionsHandler(map,geocoder,service,locationService);
   
 }
 
@@ -125,6 +126,7 @@ function initMap() {
 class AutocompleteDirectionsHandler {
     geocoder;
     service;
+    locationService;
 
   map;
   originPlaceId;
@@ -132,10 +134,19 @@ class AutocompleteDirectionsHandler {
   travelMode;
   directionsService;
   directionsRenderer;
-  constructor(map,geocoder,service) {
+  originName;
+  originLocation;
+  destinationName;
+  destinationLocation;
+  constructor(map,geocoder,service,locationService) {
+    this.locationService=locationService;
     this.geocoder=geocoder;
     this.service=service;
     this.map = map;
+    this.originName="";
+    this.originLocation="";
+    this.destinationName="";
+    this.destinationLocation="";
     this.originPlaceId = "";
     this.destinationPlaceId = "";
     this.travelMode = google.maps.TravelMode.WALKING;
@@ -156,8 +167,17 @@ class AutocompleteDirectionsHandler {
       destinationInput,
       { fields: ["place_id"] },
     );
-
-    this.myDistance();
+    
+//     const origin1 = { lat: 55.93, lng: -3.118 };
+//   const origin2 = "Greenwich, England";
+//   const destinationA = "Stockholm, Sweden";
+//   const destinationB = { lat: 50.087, lng: 14.421 };
+    this.myDistance(
+        { lat: 55.93, lng: -3.118 },
+        "Greenwich, England",
+        "Stockholm, Sweden",
+        { lat: 50.087, lng: 14.421 }
+    );
 
     this.setupClickListener(
       "changemode-walking",
@@ -190,11 +210,8 @@ class AutocompleteDirectionsHandler {
     });
   }
 
-  myDistance(){
-    const origin1 = { lat: 55.93, lng: -3.118 };
-  const origin2 = "Greenwich, England";
-  const destinationA = "Stockholm, Sweden";
-  const destinationB = { lat: 50.087, lng: 14.421 };
+  myDistance(origin1,origin2,destinationA,destinationB){
+
   const request = {
     origins: [origin1, origin2],
     destinations: [destinationA, destinationB],
@@ -227,12 +244,36 @@ const distanceValue = distance.value;
 // Optional: Format the distance for display (already in meters)
 const formattedDistance = distanceValue.toLocaleString() + " meters";
 
-    document.getElementById("response").innerText=formattedDistance;
+    // document.getElementById("response").innerText=formattedDistance;
 
     // show on map
     // document.getElementById("response").innerText= response.originAddresses;
     const destinationList = response.destinationAddresses;
   });
+  }
+  saveLocation(place,loc){
+    const request = {
+  placeId: place.place_id,
+  fields: ['geometry'] }
+  this.locationService.getDetails(request, (placeDetails, status) => {
+  if (status === google.maps.places.PlacesServiceStatus.OK) {
+    // Access the geometry data if available
+    const location = placeDetails.geometry.location;
+    const latitude = location.lat();
+    const longitude = location.lng();
+
+    window.alert(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+    // You can use these values for further processing
+  } else {
+    console.error("Error:", status);
+  }
+});
+const latitude = place.geometry.location.lat();
+const longitude = place.geometry.location.lng();
+
+window.alert(`Latitude: ${latitude}, Longitude: ${longitude}`)
+    document.getElementById(loc).innerText=place.place_id ;
   }
   setupPlaceChangedListener(autocomplete, mode) {
     autocomplete.bindTo("bounds", this.map);
@@ -246,8 +287,10 @@ const formattedDistance = distanceValue.toLocaleString() + " meters";
 
       if (mode === "ORIG") {
         this.originPlaceId = place.place_id;
+        this.saveLocation(place,"orig");
       } else {
         this.destinationPlaceId = place.place_id;
+        this.saveLocation(place,"dest");
       }
 
       this.route();
@@ -286,7 +329,9 @@ window.initMap = initMap;
     ></script>
 
     <div class=" text-center my-10">
-        <h1 id="response">Distance </h1>
+        <h1 id="orig"> </h1>
+        <hr>
+        <h1 id="dest"> </h1>
     </div>
   </body>
 </html>
