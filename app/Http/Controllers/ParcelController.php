@@ -38,22 +38,22 @@ class ParcelController extends Controller
      */
     public function store(Request $request)
     {
-        // Get the user's IP address
- $userIp = $request->ip();
- // Make a request to the ipinfo.io API
-  $client = new Client();
-  $response = $client->get("https://ipinfo.io/196.4.80.2?token=d0943f6e5438c4");
- // Parse the JSON response
-  $data = json_decode($response->getBody());
- // Extract user information
-//  dd($data);
-  $location = $data->loc;
-  $country = $data->country;
+//         // Get the user's IP address
+//  $userIp = $request->ip();
+//  // Make a request to the ipinfo.io API
+//   $client = new Client();
+//   $response = $client->get("https://ipinfo.io/196.4.80.2?token=d0943f6e5438c4");
+//  // Parse the JSON response
+//   $data = json_decode($response->getBody());
+//  // Extract user information
+// //  dd($data);
+  $location =null;
+//   $country = $data->country;
 
-  $locationArray = explode(",", $location);
+//   $locationArray = explode(",", $location);
 
-$latitude = $locationArray[0];
-$longitude = $locationArray[1];
+// $latitude = $locationArray[0];
+// $longitude = $locationArray[1];
 
         $validated = $request->validate([
             'name' => 'required|string',
@@ -68,7 +68,7 @@ $longitude = $locationArray[1];
 
         $parcel = Parcel::create($validated);
         $parcels=Parcel::where('user_id',auth()->id())->orderBy('created_at', 'desc')->paginate(2);
-        return view('dashboard',compact('parcels','location', 'country'))->with('success', 'Parcel created successfully');
+        return view('dashboard',compact('parcels'))->with('success', 'Parcel created successfully');
     }
 
     /**
@@ -146,5 +146,9 @@ $longitude = $locationArray[1];
         return view('pickDriver',compact('drivers','parcel','selectedDriver'));
 
 
+     }
+
+     public function viewMap(){
+        return view('map');
      }
 }

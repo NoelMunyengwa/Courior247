@@ -31,7 +31,7 @@ class PaymentController extends Controller
             'amount' => 'required|numeric|min:20',
           ]);
 
-          dd($request->all());
+          
     }
 
     /**

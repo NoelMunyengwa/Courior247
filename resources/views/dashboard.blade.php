@@ -56,16 +56,13 @@
                     @enderror
                 </div>
                 <div class="mb-6">
-                    <label for="address" class="block text-sm font-medium text-gray-700">Receiver Physical Address</label>
-                    <input type="text" id="address" name="address" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:ring-1">
-                    @error('address')
-                        <span class="text-xs text-red-500">{{ $message }}</span>
-                    @enderror
+                    
+                    <a class="block text-sm font-medium text-gray-700" href="{{route('viewMap')}}">Choose source address</a>
                 </div>
                 
 
                 <div class="flex items-center justify-end">
-                    <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Submit</button>
+                    <button type="submit" class="px-4 py-2 rounded-md bg-indigo-600 text-white font-medium hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Create</button>
                 </div>
             </form>
         </div>

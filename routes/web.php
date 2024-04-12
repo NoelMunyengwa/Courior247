@@ -33,4 +33,5 @@ Route::resource('parcels', ParcelController::class);
 
 
 Route::post('/parcel/{id}/payment',[PaymentController::class,'store'])->name('confirmAmount');
+Route::get('/map',[ParcelController::class,'viewMap'])->name('viewMap');
 require __DIR__.'/auth.php';
