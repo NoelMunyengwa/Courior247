@@ -74,7 +74,11 @@
             <h1 class="text-xl text-center font-medium text-gray-700">My Parcels</h1>
 
            
-
+            @if ($errors->has('amount'))
+  <div class="bg-red-400 px-4">
+    {{ $errors->first('amount') }}
+  </div>
+@endif
 
                 
 @forelse($parcels as $parcel)
@@ -100,6 +104,16 @@
         <li>Created At: {{$parcel->created_at}}</li>
         
         </ul>
+        @if($parcel->status=="pending")
+        <form action="{{ route('confirmAmount',['id' => $parcel->id]) }}" method="post">
+  @csrf 
+  @method('POST')
+ 
+
+  Amount: <input type="text" name="amount" value="{{ old('amount') }} "> <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded">Confirm</button>
+
+</form>
+@endif
     
 
 </div>

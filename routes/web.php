@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ParcelController;
 use App\Models\Parcel;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,4 +30,7 @@ Route::post('/parcel/{id}/pick/driver',[ParcelController::class,'pickDriver'])->
 Route::post('/parcel/{id}/pick/driver/{driver}',[ParcelController::class,'saveDriver'])->name('saveDriver');
 
 Route::resource('parcels', ParcelController::class);
+
+
+Route::post('/parcel/{id}/payment',[PaymentController::class,'store'])->name('confirmAmount');
 require __DIR__.'/auth.php';

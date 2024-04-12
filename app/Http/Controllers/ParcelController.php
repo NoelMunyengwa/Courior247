@@ -139,10 +139,7 @@ $longitude = $locationArray[1];
             $selectedDriver = Courior::find($driver);
             
             
-            
-            
-
-        //
+          //BROADCAST AN EVENT
         $drivers = Courior::where('id',$driver)->paginate(5);
         
 

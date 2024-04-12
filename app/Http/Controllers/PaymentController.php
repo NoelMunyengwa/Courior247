@@ -25,9 +25,13 @@ class PaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,string $id)
     {
-        //
+        $request->validate( [
+            'amount' => 'required|numeric|min:20',
+          ]);
+
+          dd($request->all());
     }
 
     /**
