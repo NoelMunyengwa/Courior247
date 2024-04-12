@@ -219,9 +219,18 @@ class AutocompleteDirectionsHandler {
       null,
       2,
     );
+    const distance = response.rows[0].elements[0].distance;
+
+// Extract the distance value in meters
+const distanceValue = distance.value;
+
+// Optional: Format the distance for display (already in meters)
+const formattedDistance = distanceValue.toLocaleString() + " meters";
+
+    document.getElementById("response").innerText=formattedDistance;
 
     // show on map
-    document.getElementById("response").innerText= response.originAddresses;
+    // document.getElementById("response").innerText= response.originAddresses;
     const destinationList = response.destinationAddresses;
   });
   }
